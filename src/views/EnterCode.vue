@@ -11,6 +11,7 @@
         Verify
       </button>
     </form>
+    <p v-if="error" class="text-red-600 mt-2">{{ error }}</p>
   </div>
 </template>
 
@@ -25,21 +26,31 @@ const router = useRouter();
 const session = useSessionStore();
 
 const code = ref('');
+const error = ref<string | null>(null);
 const phone = route.query.phone as string;
 
 const fetchProfile = async () => {
-  const { data } = await api.getProfile(session.token as string);
-  session.user = data;
+  try {
+    const { data } = await api.getProfile(session.token as string);
+    session.user = data;
+  } catch (e) {
+    error.value = 'Failed to load profile';
+  }
 };
 
 const submit = async () => {
-  const { data } = await api.verifyCode(phone, code.value);
-  session.saveToken(data.token);
-  if (data.isNew) {
-    router.push('/register');
-  } else {
-    await fetchProfile();
-    router.push('/home');
+  error.value = null;
+  try {
+    const { data } = await api.verifyCode(phone, code.value);
+    session.saveToken(data.token);
+    if (data.isNew) {
+      router.push('/register');
+    } else {
+      await fetchProfile();
+      router.push('/home');
+    }
+  } catch (e) {
+    error.value = 'Verification failed';
   }
 };
 </script>
