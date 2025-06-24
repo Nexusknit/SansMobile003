@@ -1,0 +1,17 @@
+{
+  "loginTitle": "Login",
+  "mobilePlaceholder": "Mobile number",
+  "sendCode": "Send Code",
+  "enterCodeTitle": "Enter Code",
+  "codePlaceholder": "SMS Code",
+  "verify": "Verify",
+  "registerTitle": "Complete Profile",
+  "firstNamePlaceholder": "First name",
+  "lastNamePlaceholder": "Last name",
+  "continue": "Continue",
+  "welcome": "Welcome",
+  "logout": "Logout",
+  "language": "Language",
+  "lang.en": "English",
+  "lang.fa": "Persian"
+}
