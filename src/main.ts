@@ -14,12 +14,19 @@ app.use(pinia).use(router);
 const session = useSessionStore();
 session.refreshExpiry();
 
-// Keep document direction in sync with the current locale
+// Keep document direction and language in sync with the current locale
 const locale = useLocaleStore();
 watch(
   () => locale.dir,
   (dir) => {
     document.documentElement.dir = dir;
+  },
+  { immediate: true }
+);
+watch(
+  () => locale.locale,
+  (lang) => {
+    document.documentElement.lang = lang;
   },
   { immediate: true }
 );
