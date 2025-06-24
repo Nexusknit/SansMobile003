@@ -12,4 +12,3 @@ npm run dev
 ```
 
 The UI is built with Tailwind CSS and always renders inside a fixed mobile frame for consistent layout across devices.
-
