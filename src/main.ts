@@ -3,12 +3,16 @@ import App from './App.vue';
 import router from './router';
 import { createPinia } from 'pinia';
 import { useLocaleStore } from './stores/locale';
+import { useSessionStore } from './stores/session';
 import './assets/main.css';
 
 const app = createApp(App);
 const pinia = createPinia();
 
 app.use(pinia).use(router);
+
+const session = useSessionStore();
+session.refreshExpiry();
 
 // Keep document direction in sync with the current locale
 const locale = useLocaleStore();
