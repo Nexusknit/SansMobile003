@@ -30,4 +30,3 @@ npm run build
 ```
 
 The generated files in `dist/` can be served as a standard static site.
-
