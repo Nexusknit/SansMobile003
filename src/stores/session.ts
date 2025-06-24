@@ -50,5 +50,12 @@ export const useSessionStore = defineStore('session', {
         localStorage.setItem(EXPIRY_KEY, newExpiry.toString());
       }
     },
+    refreshExpiry() {
+      if (this.token && !this.isExpired()) {
+        const newExpiry = Date.now() + 7 * 24 * 60 * 60 * 1000;
+        this.expiry = newExpiry;
+        localStorage.setItem(EXPIRY_KEY, newExpiry.toString());
+      }
+    },
   },
 });
