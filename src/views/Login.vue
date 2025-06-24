@@ -12,6 +12,7 @@
         Send Code
       </button>
     </form>
+    <p v-if="error" class="text-red-600 mt-2">{{ error }}</p>
   </div>
 </template>
 
@@ -21,10 +22,16 @@ import api from '../api/ApiService';
 import { useRouter } from 'vue-router';
 
 const phone = ref('');
+const error = ref<string | null>(null);
 const router = useRouter();
 
 const submit = async () => {
-  await api.sendPhoneNumber(phone.value);
-  router.push({ path: '/enter-code', query: { phone: phone.value } });
+  error.value = null;
+  try {
+    await api.sendPhoneNumber(phone.value);
+    router.push({ path: '/enter-code', query: { phone: phone.value } });
+  } catch (e) {
+    error.value = 'Failed to send code';
+  }
 };
 </script>

@@ -16,6 +16,7 @@
         Continue
       </button>
     </form>
+    <p v-if="error" class="text-red-600 mt-2">{{ error }}</p>
   </div>
 </template>
 
@@ -27,21 +28,31 @@ import { useSessionStore } from '../stores/session';
 
 const firstName = ref('');
 const lastName = ref('');
+const error = ref<string | null>(null);
 const router = useRouter();
 const session = useSessionStore();
 
 const fetchProfile = async () => {
-  const { data } = await api.getProfile(session.token as string);
-  session.user = data;
+  try {
+    const { data } = await api.getProfile(session.token as string);
+    session.user = data;
+  } catch (e) {
+    error.value = 'Failed to load profile';
+  }
 };
 
 const submit = async () => {
-  await api.completeProfile(
-    session.token as string,
-    firstName.value,
-    lastName.value
-  );
-  await fetchProfile();
-  router.push('/home');
+  error.value = null;
+  try {
+    await api.completeProfile(
+      session.token as string,
+      firstName.value,
+      lastName.value
+    );
+    await fetchProfile();
+    router.push('/home');
+  } catch (e) {
+    error.value = 'Profile update failed';
+  }
 };
 </script>
