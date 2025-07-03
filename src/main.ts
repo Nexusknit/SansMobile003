@@ -4,12 +4,13 @@ import router from './router';
 import { createPinia } from 'pinia';
 import { useLocaleStore } from './stores/locale';
 import { useSessionStore } from './stores/session';
+import i18n from './i18n';
 import './assets/main.css';
 
 const app = createApp(App);
 const pinia = createPinia();
 
-app.use(pinia).use(router);
+app.use(pinia).use(router).use(i18n);
 
 const session = useSessionStore();
 session.refreshExpiry();
@@ -27,6 +28,7 @@ watch(
   () => locale.locale,
   (lang) => {
     document.documentElement.lang = lang;
+    i18n.global.locale.value = lang;
   },
   { immediate: true }
 );
