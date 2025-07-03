@@ -3,10 +3,11 @@ import Login from '../views/Login.vue';
 import EnterCode from '../views/EnterCode.vue';
 import Register from '../views/Register.vue';
 import Home from '../views/Home.vue';
+import Loader from '../views/Loader.vue';
 import { useSessionStore } from '../stores/session';
 
 const routes = [
-  { path: '/', redirect: '/login' },
+  { path: '/', component: Loader },
   { path: '/login', component: Login },
   { path: '/enter-code', component: EnterCode },
   { path: '/register', component: Register },
@@ -20,7 +21,7 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   const session = useSessionStore();
-  if (['/login', '/enter-code', '/register'].includes(to.path)) {
+  if (['/login', '/enter-code', '/register', '/'].includes(to.path)) {
     next();
   } else {
     if (!session.token || session.isExpired()) {
