@@ -1,15 +1,17 @@
-import axios, { AxiosResponse } from 'axios';
-import { API_BASE_URL } from '../config/api';
+import axios, { AxiosResponse } from "axios";
+import { API_BASE_URL } from "../config/api";
 
 class ApiService {
   private client = axios.create({ baseURL: API_BASE_URL });
 
   private handleError(error: unknown) {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     throw error;
   }
 
-  private async request<T>(promise: Promise<AxiosResponse<T>>): Promise<AxiosResponse<T>> {
+  private async request<T>(
+    promise: Promise<AxiosResponse<T>>
+  ): Promise<AxiosResponse<T>> {
     try {
       return await promise;
     } catch (error) {
@@ -19,17 +21,27 @@ class ApiService {
   }
 
   public sendPhoneNumber(phone: string) {
-    return this.request(this.client.post('/auth/login', { phone }));
+    return this.request(this.client.post("/auth/login", { phone }));
+  }
+
+  public logout(token: string) {
+    return this.request(
+      this.client.post(
+        "/auth/logout",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+    );
   }
 
   public verifyCode(phone: string, code: string) {
-    return this.request(this.client.post('/auth/verify', { phone, code }));
+    return this.request(this.client.post("/auth/verify", { phone, code }));
   }
 
   public completeProfile(token: string, firstName: string, lastName: string) {
     return this.request(
       this.client.post(
-        '/auth/register',
+        "/auth/register",
         { firstName, lastName },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -38,7 +50,7 @@ class ApiService {
 
   public getProfile(token: string) {
     return this.request(
-      this.client.get('/user/profile', {
+      this.client.get("/auth/user", {
         headers: { Authorization: `Bearer ${token}` },
       })
     );

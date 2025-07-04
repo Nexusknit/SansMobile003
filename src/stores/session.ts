@@ -1,10 +1,15 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 interface UserProfile {
   id: number;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
+  image: string;
   phone: string;
+  birthday: string;
+  melicode: string;
+  gender: string;
+  short_link: string;
 }
 
 interface SessionState {
@@ -13,10 +18,10 @@ interface SessionState {
   user: UserProfile | null;
 }
 
-const SESSION_KEY = 'sr_session';
-const EXPIRY_KEY = 'sr_expiry';
+const SESSION_KEY = "sr_session";
+const EXPIRY_KEY = "sr_expiry";
 
-export const useSessionStore = defineStore('session', {
+export const useSessionStore = defineStore("session", {
   state: (): SessionState => ({
     token: localStorage.getItem(SESSION_KEY),
     expiry: localStorage.getItem(EXPIRY_KEY)
